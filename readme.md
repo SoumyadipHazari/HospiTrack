@@ -127,7 +127,7 @@ Examples:
 
 ```bash
 # Clone repository
-git clone https://github.com/mynkpdr/yantrasolve.git
+git clone https://github.com/SoumyadipHazari/HospiTrack
 cd yantrasolve
 
 # Creating venv
