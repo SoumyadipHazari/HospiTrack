@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4" style="max-width: 600px;">
+
+    <h3>Add Department</h3>
+    <hr>
+
+    <form method="POST" action="{{ url_for('admin.add_department') }}">
+
+        <label class="mt-2">Department Name</label>
+        <input type="text" name="name" class="form-control" required>
+
+        <label class="mt-2">Description</label>
+        <textarea name="description" class="form-control"></textarea>
+
+        <button class="btn btn-primary mt-3">Save</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary mt-3">Back</a>
+
+    </form>
+
+</div>
+{% endblock %}

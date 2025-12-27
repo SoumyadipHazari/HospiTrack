@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container text-center mt-5" style="max-width: 700px;">
+
+    <h1 class="mb-3">HospiTrack</h1>
+    <p class="lead">
+        A simple hospital management system for managing patients, doctors, appointments, and medical history.
+    </p>
+
+    <hr class="my-4">
+
+    <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg me-2">
+        Login
+    </a>
+
+    <a href="{{ url_for('auth.register') }}" class="btn btn-success btn-lg">
+        Register
+    </a>
+
+</div>
+
+{% endblock %}

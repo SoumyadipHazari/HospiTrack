@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Patient History</h3>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary btn-sm mb-3">Back</a>
+
+    <div class="border p-3">
+
+        <p><strong>Patient Name:</strong> {{ patient.user.name }}</p>
+        <p><strong>Doctor:</strong> {{ doctor_name }}</p>
+        <p><strong>Department:</strong> {{ department }}</p>
+
+        <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Visit No</th>
+                <th>Visit Type</th>
+                <th>Tests Done</th>
+                <th>Diagnosis</th>
+                <th>Prescription</th>
+                <th>Medicines</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for v in history %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ v.visit_type }}</td>
+
+                <td>{{ v.test_done }}</td>
+
+                <td>{{ v.diagnosis }}</td>
+                <td>{{ v.prescription }}</td>
+                <td>{{ v.medicines }}</td>
+                <td>{{ v.date }}</td>
+
+                <td>
+                    {% if v.time_start and v.time_end %}
+                        {{ v.time_start }} - {{ v.time_end }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <a href="{{ url_for('patient.dashboard') }}" class="btn btn-sm btn-secondary mb-3">Back</a>
+
+    <h3 class="mb-4">Doctor's Availability</h3>
+
+
+
+    <div class="row">
+
+        {% for date in dates %}
+        {% set i = loop.index %}
+        {% set slots = availability['day_' ~ i] %}
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm p-3">
+                <h5 class="mb-3">{{ date }}</h5>
+
+                {% if slots %}
+
+                    {# ---------- MORNING ---------- #}
+                    {% set morning = slots['morning'] %}
+                    <div class="mb-2"><small class="text-muted">Morning Slot</small></div>
+
+                    {% if morning %}
+                        {% set start = morning.split('-')[0] %}
+                        {% set start_norm = "%02d:%02d"|format(start.split(':')[0]|int, start.split(':')[1]|int) %}
+
+                        {% set is_booked_m = (date, start_norm) in booked_slots %}
+                        {% set is_my_m = (date, start_norm) in patient_booked_slots %}
+
+                        {% if is_my_m %}
+                            <div class="alert alert-danger py-2 text-center mb-3">{{ morning }} (You booked this)</div>
+
+                        {% elif is_booked_m %}
+                            <div class="alert alert-danger py-2 text-center mb-3">{{ morning }} (Booked)</div>
+
+                        {% else %}
+                            <form method="POST" action="{{ url_for('patient.book_appointment') }}">
+                                <input type="hidden" name="doctor_id" value="{{ doctor.id }}">
+                                <input type="hidden" name="date" value="{{ date }}">
+                                <input type="hidden" name="time_start" value="{{ start_norm }}">
+                                <input type="hidden" name="time_end" value="{{ morning.split('-')[1] }}">
+                                <button class="btn btn-success w-100 mb-3">{{ morning }}</button>
+                            </form>
+                        {% endif %}
+
+                    {% else %}
+                        <p class="text-muted mb-3">No morning slot</p>
+                    {% endif %}
+
+                    {# ---------- EVENING ---------- #}
+                    {% set evening = slots['evening'] %}
+                    <div class="mb-2"><small class="text-muted">Evening Slot</small></div>
+
+                    {% if evening %}
+                        {% set estart = evening.split('-')[0] %}
+                        {% set estart_norm = "%02d:%02d"|format(estart.split(':')[0]|int, estart.split(':')[1]|int) %}
+
+                        {% set is_booked_e = (date, estart_norm) in booked_slots %}
+                        {% set is_my_e = (date, estart_norm) in patient_booked_slots %}
+
+                        {% if is_my_e %}
+                            <div class="alert alert-danger py-2 text-center mb-3">{{ evening }} (You booked this)</div>
+
+                        {% elif is_booked_e %}
+                            <div class="alert alert-danger py-2 text-center mb-3">{{ evening }} (Booked)</div>
+
+                        {% else %}
+                            <form method="POST" action="{{ url_for('patient.book_appointment') }}">
+                                <input type="hidden" name="doctor_id" value="{{ doctor.id }}">
+                                <input type="hidden" name="date" value="{{ date }}">
+                                <input type="hidden" name="time_start" value="{{ estart_norm }}">
+                                <input type="hidden" name="time_end" value="{{ evening.split('-')[1] }}">
+                                <button class="btn btn-success w-100">{{ evening }}</button>
+                            </form>
+                        {% endif %}
+
+                    {% else %}
+                        <p class="text-muted">No evening slot</p>
+                    {% endif %}
+
+                {% else %}
+                    <p class="text-muted">No availability set</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

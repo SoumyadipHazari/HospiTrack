@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Edit Doctor</h2>
+    <form method="POST" action="{{ url_for('admin.edit_doctor', doctor_id=doctor.id) }}">
+
+        <label class="form-label mt-3">Full Name</label>
+        <input type="text" class="form-control" value="{{ doctor.user.name }}" disabled>
+
+        <label class="form-label mt-3">Specialization</label>
+        <input type="text" class="form-control" name="specialization"
+            value="{{ doctor.specialization }}">
+
+        <label class="form-label mt-3">Department</label>
+        <select class="form-control" name="department_id">
+            {% for dept in departments %}
+            <option value="{{ dept.id }}" 
+                {% if doctor.department_id == dept.id %}selected{% endif %}>
+                {{ dept.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <button class="btn btn-primary mt-3">Update</button>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary mt-3">Back</a>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Patient History</h3>
+
+    <p><strong>Patient Name:</strong> {{ patient.user.name }}</p>
+    <p><strong>Doctor:</strong> {{ doctor.user.name }}</p>
+    <p><strong>Department:</strong> {{ doctor.department.name }}</p>
+
+    {% if history %}
+        <table class="table table-bordered mt-3">
+            <thead>
+            <tr>
+                <th>Visit No.</th>
+                <th>Visit Type</th>
+                <th>Test Done</th>
+                <th>Diagnosis</th>
+                <th>Prescription</th>
+                <th>Medicines</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for v in history %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ v.visit_type }}</td>
+                <td>{{ v.test_done }}</td>
+                <td>{{ v.diagnosis }}</td>
+                <td>{{ v.prescription }}</td>
+                <td>{{ v.medicines }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-muted mt-3">No previous history available. First-time visit.</p>
+    {% endif %}
+
+    <a href="{{ url_for('doctor.doctor_dashboard') }}" class="btn btn-secondary">Back</a>
+
+</div>
+
+{% endblock %}

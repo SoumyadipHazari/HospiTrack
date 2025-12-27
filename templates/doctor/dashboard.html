@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Welcome Dr. {{ doctor.user.name }}</h3>
+
+    <h5 class="mt-4">Upcoming Appointments</h5>
+    <table class="table table-bordered mt-2">
+        <thead>
+        <tr>
+            <th>Sr No.</th>
+            <th>Patient Name</th>
+            <th>Patient History</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for a in upcoming %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ a.patient.user.name }}</td>
+            <td>
+                <a href="{{ url_for('doctor.patient_history', patient_id=a.patient.id) }}"
+                   class="btn btn-primary btn-sm">View</a>
+            </td>
+            <td>
+                <a href="{{ url_for('doctor.update_history_page', app_id=a.id) }}"
+                   class="btn btn-info btn-sm">Update</a>
+
+                <a href="{{ url_for('doctor.mark_complete', app_id=a.id) }}"
+                   class="btn btn-success btn-sm">Mark as Complete</a>
+
+                <a href="{{ url_for('doctor.cancel_appointment', app_id=a.id) }}"
+                   class="btn btn-danger btn-sm">Cancel</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">Assigned Patients</h5>
+    <table class="table table-bordered mt-2">
+        <thead>
+        <tr>
+            <th>Patient Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>History</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for a in assigned_patients %}
+        <tr>
+            <td>{{ a.patient.user.name }}</td>
+            <td>{{ a.date }}</td>
+            <td>{{ a.time_start }} - {{ a.time_end }}</td>
+            <td>
+                <a href="{{ url_for('doctor.patient_history', patient_id=a.patient.id) }}"
+                class="btn btn-primary btn-sm">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('doctor.availability_page') }}"
+       class="btn btn-success mt-4">Provide Availability</a>
+
+</div>
+
+{% endblock %}

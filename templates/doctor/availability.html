@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+    <h3>Provide Availability</h3>
+
+    <form method="POST" action="{{ url_for('doctor.save_availability') }}">
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Morning</th>
+                    <th>Evening</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for date in next_7_days %}
+                {% set i = loop.index %}
+                <tr>
+                    <td>{{ date }}</td>
+
+                    <td>
+                        <input type="text" class="form-control"
+                               name="morning_{{ i }}"
+                               value="{{ saved['day_' ~ i].morning if saved['day_' ~ i] is defined else '' }}">
+                    </td>
+
+                    <td>
+                        <input type="text" class="form-control"
+                               name="evening_{{ i }}"
+                               value="{{ saved['day_' ~ i].evening if saved['day_' ~ i] is defined else '' }}">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button class="btn btn-primary mt-3">Save Availability</button>
+        <a href="{{ url_for('doctor.doctor_dashboard') }}" class="btn btn-secondary mt-3">Back</a>
+    </form>
+
+</div>
+
+{% endblock %}

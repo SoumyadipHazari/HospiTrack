@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h3>Welcome {{ patient.user.name }}</h3>
+
+    <div class="text-end">
+        <a href="{{ url_for('patient.edit_profile_page') }}" class="btn btn-success btn-sm">Edit Profile</a>
+        <a href="{{ url_for('patient.appointment_history') }}" class="btn btn-info btn-sm">History</a>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+
+    <h5 class="mt-4">Doctors List</h5>
+
+    <form method="GET" action="{{ url_for('patient.dashboard') }}" class="mb-3">
+        <input type="text"
+            name="q"
+            class="form-control"
+            placeholder="Search doctor, specialization, department..."
+            value="{{ q }}">
+    </form>
+
+
+    <div class="row">
+        {% for d in doctors %}
+        <div class="col-md-4">
+            <div class="card mb-3 p-3">
+
+                <img src="{{ url_for('static', filename='images/default_dp.png') }}"
+                     class="rounded-circle mx-auto d-block"
+                     width="90">
+
+                <h5 class="text-center mt-3">{{ d.user.name }}</h5>
+                <p class="text-center text-muted">{{ d.specialization }}</p>
+                <p class="text-center">
+                    <strong>Dept:</strong> {{ d.department.name if d.department else 'N/A' }}
+                </p>
+
+                <div class="d-flex justify-content-between mt-2">
+                    <a href="{{ url_for('patient.doctor_availability', doctor_id=d.id) }}"
+                       class="btn btn-success btn-sm">Check Availability</a>
+
+                    <a href="{{ url_for('patient.doctor_details', doctor_id=d.id) }}"
+                       class="btn btn-primary btn-sm">View Details</a>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <h5 class="mt-4">Upcoming Appointments</h5>
+
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Doctor Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in upcoming %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ a.doctor.user.name }}</td>
+                <td>{{ a.date }}</td>
+                <td>{{ a.time_start }} - {{ a.time_end }}</td>
+                <td>
+                    <a href="{{ url_for('patient.cancel_appointment', app_id=a.id) }}"
+                       class="btn btn-danger btn-sm">Cancel</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

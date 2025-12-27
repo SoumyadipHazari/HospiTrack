@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Update Patient History</h3>
+    <p><strong>Patient Name:</strong> {{ appointment.patient.user.name }}</p>
+    <p><strong>Department:</strong> {{ appointment.doctor.department.name }}</p>
+
+    <form method="POST" action="{{ url_for('doctor.update_history', app_id=appointment.id) }}">
+
+        <label class="form-label mt-2">Visit Type</label>
+        <input name="visit_type" class="form-control">
+
+        <label class="form-label mt-3">Test Done</label>
+        <textarea name="test_done" class="form-control" rows="3"></textarea>
+
+        <label class="form-label mt-3">Diagnosis</label>
+        <textarea name="diagnosis" class="form-control" rows="3"></textarea>
+
+        <label class="form-label mt-3">Prescription</label>
+        <textarea name="prescription" class="form-control" rows="3"></textarea>
+
+        <label class="form-label mt-3">Medicines</label>
+        <textarea name="medicines" class="form-control" rows="4"></textarea>
+
+        <button class="btn btn-primary mt-3">Save</button>
+        <a href="{{ url_for('doctor.doctor_dashboard') }}" class="btn btn-secondary mt-3">Back</a>
+    </form>
+
+</div>
+
+{% endblock %}

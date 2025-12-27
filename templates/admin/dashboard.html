@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3 class="mb-3">Welcome Admin</h3>
+
+
+    <form method="GET" action="{{ url_for('admin.search') }}" class="d-flex mb-4" style="max-width: 400px;">
+        <input type="text" name="query" class="form-control me-2" placeholder="doctor, patient, department..">
+        <button class="btn btn-primary">Search</button>
+    </form>
+
+    <a href="{{ url_for('admin.add_doctor_html') }}" class="btn btn-success mb-4">Add New Doctor</a>
+    <a href="{{ url_for('admin.add_department_page') }}" class="btn btn-info mb-4">Add Department</a>
+
+
+    <h5 class="mt-4">Registered Doctors</h5>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in doctors %}
+            <tr>
+                <td>{{ d.user.name }}</td>
+                <td>{{ d.specialization }}</td>
+                <td>{{ d.department.name if d.department else 'N/A' }}</td>
+                <td>
+                    <a href="{{ url_for('admin.edit_doctor_page', doctor_id=d.id) }}"class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{{ url_for('admin.delete_doctor', doctor_id=d.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">Registered Patients</h5>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in patients %}
+            <tr>
+                <td>{{ p.user.name }}</td>
+                <td>{{ p.user.email }}</td>
+                <td>{{ p.contact }}</td>
+                <td>
+                    <a href="{{ url_for('admin.delete_patient', patient_id=p.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h5 class="mt-4">Upcoming Appointments</h5>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Department</th>
+                <th>History</th>
+                <th>Cancel</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for a in upcoming %}
+            <tr>
+                <td>{{ a.id }}</td>
+                <td>{{ a.patient.user.name }}</td>
+                <td>{{ a.doctor.user.name }}</td>
+                <td>{{ a.date }}</td>
+                <td>{{ a.time_start.strftime("%H:%M") }} - {{ a.time_end.strftime("%H:%M") }}</td>
+                <td>{{ a.doctor.department.name if a.doctor.department else 'N/A' }}</td>
+                <td>
+                    <a href="{{ url_for('admin.patient_history', patient_id=a.patient.id) }}"
+                       class="btn btn-primary btn-sm">View</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.admin_cancel_appointment', app_id=a.id) }}"
+                    class="btn btn-danger btn-sm">Cancel</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+{% endblock %}
