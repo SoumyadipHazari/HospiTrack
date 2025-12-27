@@ -142,6 +142,17 @@ python -m venv venv
 # Install dependencies
 pip install -r .\requirements.txt
 ```
+
+### Setting up env
+
+- Create a file named .env in the "Hospitrack" folder
+- set up secret key by
+
+```text
+SECRET_KEY= #anything you like put up here without quotes
+```
+- Save it
+
 ### Run
 
 ```bash
