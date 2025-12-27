@@ -166,14 +166,17 @@ python .\app.py
 Installed via `pip`:
 
 ```txt
+﻿blinker
+click
+colorama
 Flask
 Flask-Login
 Flask-SQLAlchemy
-SQLAlchemy
-Jinja2
-Werkzeug
-itsdangerous
-blinker
-click
 greenlet
+itsdangerous
+Jinja2
+MarkupSafe
+SQLAlchemy
 typing_extensions
+Werkzeug
+python-dotenv
