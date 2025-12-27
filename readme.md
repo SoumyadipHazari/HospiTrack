@@ -128,7 +128,8 @@ Examples:
 ```bash
 # Clone repository
 git clone https://github.com/SoumyadipHazari/HospiTrack
-cd yantrasolve
+
+cd HospiTrack
 
 # Creating venv
 
